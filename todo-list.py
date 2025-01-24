@@ -21,6 +21,22 @@ def add_task (todo_list, task):
     todo_list.append({"Task": task, "Completed": False})
     print(f"Your task '{task}' was added to the todo list.")
 
+def get_yes_or_no(prompt_message):
+    """
+    Handle 'yes' and 'no' user inputs.
+
+    Parameter: prompt_message - message used to prompt user for information.
+    """
+    is_valid = False
+    while not is_valid:
+        prompt = input(prompt_message).lower()
+        # Check if users input matches the desired input in the list.
+        if prompt in ["yes", "no"]:
+            is_valid = True
+            return prompt
+        else:
+            print("invalid input. Please try again.")
+
 def get_more_tasks (todo_list):
     """
     Ask user if they would like to add more tasks to the todo list.
@@ -32,7 +48,7 @@ def get_more_tasks (todo_list):
     # Initialize variable to enter the loop.
     prompt = "yes"
     while prompt == "yes":
-        prompt = input("Would you like to add another task? (Enter 'Yes' or 'No'): ").lower()
+        prompt = get_yes_or_no("Would you like to add another task? (Enter 'Yes' or 'No'): ")
         if prompt == "yes":
             new_task = get_task()
             add_task(todo_list, new_task)
@@ -56,18 +72,22 @@ def remove_task(todo_list):
     """
     prompt = "yes"
     while prompt == "yes":
-        prompt = input("Would you like to remove a task from this list? (Enter 'Yes' or 'No'): ").lower()
+        prompt = get_yes_or_no("Would you like to remove a task from this list? (Enter 'Yes' or 'No'): ")
         if prompt == "yes":
             index = int(input("Please enter the task number from the todo list. (Example: '1', '3', '4'): ")) - 1
-            print(f"Your task '{todo_list[index].get("Task")}' was removed from the todo list.")
-            todo_list.pop(index)
-            if len(todo_list) > 0:  
-                display_todo_list(todo_list)
+            if index < 0 or index >= len(todo_list):
+                print("Invalid input. Please enter the number next to the task you would like to remove.")
             else:
-                prompt = "no"
-                print("Your todo list is empty.")
-                get_more_tasks(todo_list)
+                print(f"Your task '{todo_list[index].get('Task')}' was removed from the todo list.")
+                todo_list.pop(index)
+                if len(todo_list) > 0:  
+                    display_todo_list(todo_list)
+                else:
+                    prompt = "no"
+                    print("Your todo list is empty.")
+                    get_more_tasks(todo_list)
         elif prompt == "no" and len(todo_list) > 0:
+            print("Good luck with your tasks!")
             display_todo_list(todo_list)
         elif prompt == "no" and len(todo_list) == 0:
             print("Have a nice day!")
