@@ -60,7 +60,7 @@ def get_more_tasks (todo_list):
             print("Invalid input. Please enter 'Yes' or 'No'.")
             prompt = "yes"
 
-def remove_task(todo_list): #Work on implementing a try-except error handling for when the user types anything besides an integer for index.
+def remove_task(todo_list): 
     """
     Remove tasks from the todo list.
 
